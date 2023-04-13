@@ -12,7 +12,7 @@ public class Box1 {
     return volume;
   }
 
-  Box1(int w, int l, int h) {
+  public Box1(int w, int l, int h) {
     this.width = w;
     this.length = l;
     this.height = h;
