@@ -1,11 +1,15 @@
 package ch09.AnonymousClass;
 
+import ch09.interfacetest.LgTV;
+import ch09.interfacetest.SamsungTV;
+import ch09.interfacetest.Student;
+
 public class AnonymousClass {
   public static void main(String[] args) {
-    RemoteControl rt1 = new SamsungTV();
+    RemoteControl rt1 = (RemoteControl) new SamsungTV();
     rt1.turnOn();
 
-    RemoteControl rt2 = new LgTV();
+    RemoteControl rt2 = (RemoteControl) new LgTV();
     rt2.turnOn();
 
     // 인터페이스 자료형으로 만든 무명클래스
