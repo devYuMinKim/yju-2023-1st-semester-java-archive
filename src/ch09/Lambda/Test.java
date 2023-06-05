@@ -21,7 +21,7 @@ public class Test {
     // 일지매 : 28세
     // 박문수 : 35세
 
-    printPersonOlderThan(list, 23);
+    // printPersonOlderThan(list, 23);
     /**
      * Name: 고길동, Email: gdhon@gmail.com, Gender: MALE, BirthDate: 2000-01-04, Age:
      * 23
@@ -32,7 +32,7 @@ public class Test {
      * Name: 박문수, Email: mspark@gmail.com, Gender: MALE, BirthDate: 1988-05-31, Age:
      * 35
      */
-    printPersonWithinAgeRange(list, 28, 40);
+    // printPersonWithinAgeRange(list, 28, 40);
     /**
      * Name: 일지매, Email: gmil@gmail.com, Gender: FEMALE, BirthDate: 1995-02-12,
      * Age:
@@ -42,12 +42,81 @@ public class Test {
      * Age:
      * 35
      */
-    printPersons(list, new CheckPersonMale18to25());
+    // printPersons(list, new CheckPersonMale18to25());
     /**
      * Name: 고길동, Email: gdhon@gmail.com, Gender: MALE, BirthDate: 2000-01-04, Age:
      * 23
      */
-    printPersons(list, new CheckPersonFemale20to30());
+    // printPersons(list, new CheckPersonFemale20to30());
+    /**
+     * Name: 일지매, Email: gmil@gmail.com, Gender: FEMALE, BirthDate: 1995-02-12, Age:
+     * 28
+     */
+
+    // CheckPerson 인터페이스를 implements 하는 클래스를 하나 생성해서
+    // printPersons 메서드를 호출해라.
+    // 단, 이 메서드에 의해 출력되는 Person 객체는 성별이 남자인 객체이어야 한다.
+    // printPersons(list, new CheckMale());
+    /**
+     * Name: 고길동, Email: gdhon@gmail.com, Gender: MALE, BirthDate: 2000-01-04, Age:
+     * 23
+     * 
+     * Name: 박문수, Email: mspark@gmail.com, Gender: MALE, BirthDate: 1988-05-31, Age:
+     * 35
+     */
+
+    // 위와 똑같이 성별이 남자인 객체만 출력하도록
+    // printPersons 메서드를 호출하되, 무명클래스를 이용하라.
+    // CheckPerson 인터페이스를 구현하는 무명클래스를 생성해 printPersons 메서드를 호출하면 된다.
+    // 클래스 선언과(정의와) 객체생성을 동시에 할 수 있는 방법이 무명클래스잖아...
+    printPersons(list, new CheckPerson() {
+      @Override
+      public boolean test(Person p) {
+        return p.getGender() == Sex.MALE;
+      }
+    });
+    /**
+     * Name: 고길동, Email: gdhon@gmail.com, Gender: MALE, BirthDate: 2000-01-04, Age:
+     * 23
+     * 
+     * Name: 박문수, Email: mspark@gmail.com, Gender: MALE, BirthDate: 1988-05-31, Age:
+     * 35
+     */
+
+    // 오직 하나의 추상메서드만 가지는 인터페이스 타입의 객체를 람다식으로 표현할 수 있다.
+    // 람다식은 이름없는 메서드라 할 수 있다.
+    // 람다식을 이용하는 이유는 간결하기 때문이다.
+    // 람다식을 이용하는 메서드가 필요한 곳에 간단히 메서드를 보낼 수 있다.
+    // 람다식은 함수형 프로그래밍을 자바에 도입한 것이다.
+    // 람다식은 오직 하나의 추상 메서드를 가지는 인터페이스 타입의 객체를 요구하는 메서드의 인자로 전달될 수 있다.
+    // 람다식의 문법
+    // (arg1, arg2, ...) -> { body }
+    // (type1 arg1, type2 arg2, ...) -> { body }
+
+    System.out.println(sum(100, 200, 105, (n1, n2) -> n1 + n2)); // 405
+    System.out.println(sum(100, 200, 105, new MyAdd()));
+
+    // 위의 무명클래스를 람다식으로 구현해보자.
+    printPersons(list, (p) -> {
+      return p.getGender() == Sex.MALE;
+    });
+
+    // 람다식의 body가 return문 하나만으로 구성되어 있으면 return, 중괄호({}), 문장 끝의 세미콜론(;)도 생략할 수 있다.
+    // 즉, printPersons(list, (p) -> p.getGender() == Sex.MALE;); 도 가능하다.
+
+    printPersons(list, (p) -> {
+      System.out.println(p.getName());
+      return p.getAge() >= 30;
+    });
+
+    // 람다식의 매개변수가 오직 하나일 때는 매개변수를 둘러싸는 ()도 생략할 수 있다.
+    printPersons(list, p -> {
+      System.out.println(p.getName());
+      return p.getAge() >= 30;
+    });
+
+    // 람다식을 이용해서 printPersons 메서드를 호출하고, 나이 20에서 30살 사이의 여자만 출력되도록 구현하라.
+    printPersons(list, p -> p.getGender() == Sex.FEMALE && p.getAge() > 20 && p.getAge() < 30);
     /**
      * Name: 일지매, Email: gmil@gmail.com, Gender: FEMALE, BirthDate: 1995-02-12, Age:
      * 28
@@ -106,6 +175,29 @@ public class Test {
   static class CheckPersonFemale20to30 implements CheckPerson {
     public boolean test(Person p) {
       return p.getGender() == Sex.FEMALE && p.getAge() >= 20 && p.getAge() < 30;
+    }
+  }
+
+  static class CheckMale implements CheckPerson {
+    public boolean test(Person p) {
+      return p.getGender() == Sex.MALE;
+    }
+  }
+
+  public static int sum(int n1, int n2, int n3, Add add) {
+    int result = add.add(n1, n2);
+    result = add.add(result, n3);
+    System.out.println(result);
+    return result;
+  }
+
+  interface Add {
+    int add(int n1, int n2);
+  }
+
+  static class MyAdd implements Add {
+    public int add(int n1, int n2) {
+      return n1 + n2;
     }
   }
 }
