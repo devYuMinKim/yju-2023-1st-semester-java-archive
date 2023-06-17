@@ -1,4 +1,4 @@
-package ch09.generic;
+package ch15.generic;
 
 public class IntBox {
   // 기초자료형 int의 wrapper class

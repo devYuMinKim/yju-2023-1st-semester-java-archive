@@ -1,4 +1,4 @@
-package ch09.generic;
+package ch15.generic;
 
 public class Test {
   public static void main(String[] args) {

@@ -1,4 +1,4 @@
-package ch09.generic;
+package ch15.generic;
 
 public class GenericPair<T, V> {
   private T key;
